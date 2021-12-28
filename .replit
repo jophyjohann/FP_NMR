@@ -1,2 +1,4 @@
-language = "bash"
-run = "python main.py"
+#language = "python3"
+#run = "python main.py"
+language = "python3"
+run = "fluxbox > /dev/null 2>&1 & python main.py"
