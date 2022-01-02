@@ -50,7 +50,7 @@ class run:
 		omega=2*np.pi*f
 		h_red=1.054571635e-34
 		#g=1.16
-		g=0.3
+		g=0.1812
 
 		mu_N=5.0507837461e-27
 		gamma=g * mu_N / h_red
