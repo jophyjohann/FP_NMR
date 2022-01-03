@@ -24,6 +24,9 @@ class run:
 
 		### Plot all measured datasets (11) and export them for overwiev ###
 
+		x_limits=14*[(0,None)]
+		x_limits[10]=[0,300]
+
 		for data in dataSet:
 			export_name = data['name'][5:6] + "_-_" + data['name'][7:-4]
 			name = ("dataSet[" + str(dataSet.index(data)) + "]\n" + export_name).replace("_"," ")
@@ -36,7 +39,9 @@ class run:
 			plt.plot(data['f'], data['im'], '.', label = "imaginary")
 			plt.plot(data['f'], np.sqrt(data['im']**2+data['re']**2), '.', label = "absolute")
 			plt.title(label=title_name)
-			plt.xlable()
+			plt.xlabel(r"Time t / $\mu$s")
+			plt.ylabel("Amplitude")
+			plt.xlim(x_limits[dataSet.index(data)])
 			plt.legend()
 			plt.savefig(self.export_folder + export_name + self.export_extension, bbox_inches='tight')
 			maximize()
