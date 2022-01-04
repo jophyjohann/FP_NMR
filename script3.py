@@ -23,15 +23,14 @@ class run:
 			#mng.full_screen_toggle()
 			#os.system('xdotool key alt+F10')
 		
+		
+		data=dataSet[11]
+		
+		export_name ="spin_spin_relaxation_fit"
+		title_name=export_name.replace("_"," ")
 
-		#export_name = dataSet['name'][5:6] + "_-_" + dataSet['name'][7:-4]
-		#name = ("dataSet[" + str(dataSet[11]) + "]\n" + export_name).replace("_"," ")
-		#title_name=export_name.replace("_"," ")
-
-		#print(80*"_"+"\n\nPlotting: ", name)
-
-
-		print(dataSet[11]['name'])
+		print(80*"_"+"\n\nPlotting: ", title_name)
+		
 
 		re = dataSet[11]['re']
 		im = dataSet[11]['im']
@@ -51,37 +50,37 @@ class run:
 		#print(max)
 		
 		plot_range=[None,None]
-		fit_range = [10,-10]
-		fit_plot_range = [10,-10]
+		fit_range = [None,None]
+		fit_plot_range = [None,None]
 		
-		max *= 1e-6
+		tau *= 1e-3
 
 		# Fit Equation
-		def M_echo2(tau, M_sat, T_2):
-			return M_sat * np.exp(-2 * tau / T_2)
+		def M_echo(tau, M_sat, T_2, c):
+			return M_sat * np.exp(-2 * tau / T_2) + c
 
-		def M_echo(tau, M_sat, T_2):
-			M = M_sat * np.exp(tau)*2
-			return M
-		
-		Fit_params = [["M_sat", "T_2"],
-		              [4, 0.3]]    # Starting values
+		fit_param = [["M_sat", "T_2", "  c"],
+		              [4e6, 0.3e3, 0.3e6]]    # Starting values
 
 		#print("x",tau)
 		#print("y",max)
 		
-		popt, pcov =  opt.curve_fit(M_echo, tau[fit_range[0]:fit_range[1]], max[fit_range[0]:fit_range[1]], p0=Fit_params[1])
-		print(popt)
+		popt, pcov =  opt.curve_fit(M_echo, tau[fit_range[0]:fit_range[1]], max[fit_range[0]:fit_range[1]], p0=fit_param[1])
+		
+		print("\nFit Parameter:")
+		print("Param.      Wert          Δ(Fit)")
+		for param in fit_param[0]:
+			i = fit_param[0].index(param)
+			print("{} \t= \t{:.5}".format(param,popt[i])+ (11-len("{:.5}".format(popt[i])))*" "+"± {:.5}".format(np.sqrt(np.diag(pcov))[i]))
 		
 		# plot
 		fig = plt.figure(figsize=(8, 4), dpi=120).add_subplot(1, 1, 1)
 		plt.plot(tau, max, '+')
 		plt.plot(tau[fit_plot_range[0]:fit_plot_range[1]], M_echo(tau[fit_plot_range[0]:fit_plot_range[1]], *popt))
-		plt.xlabel(r'$\tau$ /$\mu$s')
+		plt.xlabel(r'$\tau$ /ms')
 		plt.ylabel('Amplitude')
 		plt.title('Spin-Spin-Relaxation')
-		plt.xlim(0, 5000)
+		plt.xlim(0, 5)
 		maximize()
+		plt.savefig(self.export_folder + export_name + self.export_extension, bbox_inches='tight')
 		plt.show()
-
-		
