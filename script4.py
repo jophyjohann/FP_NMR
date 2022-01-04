@@ -73,12 +73,13 @@ class run:
 		
 		# plot
 		fig = plt.figure(figsize=(8, 4), dpi=120).add_subplot(1, 1, 1)
-		plt.plot(dt, max, '+')
-		plt.plot(dt[fit_plot_range[0]:fit_plot_range[1]], M_echo(dt[fit_plot_range[0]:fit_plot_range[1]], *popt))
-		plt.xlabel(r'$\Delta$t /ms')
+		plt.plot(dt, max, '+', label = "Measurement points")
+		plt.plot(dt[fit_plot_range[0]:fit_plot_range[1]], M_echo(dt[fit_plot_range[0]:fit_plot_range[1]], *popt), label = "Fit")
+		plt.xlabel(r'$\Delta$t / ms')
 		plt.ylabel('Amplitude')
 		plt.title('Spin-Lattice-Relaxation')
 		plt.xlim(0, 4.2)
+		plt.legend(loc="lower right")
 		maximize()
 		plt.savefig(self.export_folder + export_name + self.export_extension, bbox_inches='tight')
 		plt.show()

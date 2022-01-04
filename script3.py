@@ -75,12 +75,13 @@ class run:
 		
 		# plot
 		fig = plt.figure(figsize=(8, 4), dpi=120).add_subplot(1, 1, 1)
-		plt.plot(tau, max, '+')
-		plt.plot(tau[fit_plot_range[0]:fit_plot_range[1]], M_echo(tau[fit_plot_range[0]:fit_plot_range[1]], *popt))
-		plt.xlabel(r'$\tau$ /ms')
+		plt.plot(tau, max, '+', label = "Measurement points")
+		plt.plot(tau[fit_plot_range[0]:fit_plot_range[1]], M_echo(tau[fit_plot_range[0]:fit_plot_range[1]], *popt), label = "Fit")
+		plt.xlabel(r'$\tau$ / ms')
 		plt.ylabel('Amplitude')
 		plt.title('Spin-Spin-Relaxation')
 		plt.xlim(0, 5)
+		plt.legend()
 		maximize()
 		plt.savefig(self.export_folder + export_name + self.export_extension, bbox_inches='tight')
 		plt.show()
