@@ -22,10 +22,16 @@ class run:
 			#mng.full_screen_toggle()
 			#os.system('xdotool key alt+F10')
 
-		### Plot all measured datasets (11) and export them for overwiev ###
+		### Plot all measured datasets (14) and export them for overwiev ###
 
-		x_limits=14*[(0,None)]
-		x_limits[10]=[0,300]
+		x_limits=14*[(None,None)]
+		x_limits[1]=[0,300]
+		x_limits[3]=[0,300]
+		x_limits[5]=[0,300]
+		x_limits[7]=[0,300]
+		x_limits[11]=[0,300]
+		x_limits[12]=[0,300]
+		x_limits[13]=[0,300]
 
 		for data in dataSet:
 			export_name = data['name'][5:6] + "_-_" + data['name'][7:-4]
@@ -35,9 +41,9 @@ class run:
 			print(80*"_"+"\n\nPlotting: ", name)
 		
 			fig = plt.figure(figsize=(8, 4), dpi=120).add_subplot(1, 1, 1)
-			plt.plot(data['f'], data['re'], '.', label = "real")
-			plt.plot(data['f'], data['im'], '.', label = "imaginary")
-			plt.plot(data['f'], np.sqrt(data['im']**2+data['re']**2), '.', label = "absolute")
+			plt.plot(data['f'], data['re'], '-', label = "real")
+			plt.plot(data['f'], data['im'], '-', label = "imaginary")
+			plt.plot(data['f'], np.sqrt(data['im']**2+data['re']**2), '-', label = "absolute")
 			plt.title(label=title_name)
 			plt.xlabel(r"Time t / $\mu$s")
 			plt.ylabel("Amplitude")
